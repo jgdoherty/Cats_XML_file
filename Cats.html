@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Workshop 10</title>
+
+
+<script src="js/jquery-1.11.2.js"></script>
+<script src="jquery.mobile-1.4.5/jquery.mobile-1.4.5.js"></script>
+<link rel="stylesheet" href="jquery.mobile-1.4.5/jquery.mobile-1.4.5.css"></script>
+
+<script type="text/javascript">
+
+
+
+$(document).ready(function(){
+	$.ajax({
+		type: "GET",
+		url: "locatz.xml",
+		dataType: "xml",
+		success: xmlParser
+	});
+});
+
+
+function xmlParser(xml) { 
+
+var listHTML = '';
+var pagesHTML = '';
+
+$(xml).find('kitteh').each(function() {
+	
+		kitteh = $(this);
+    var name = $(kitteh).find("name").text();
+    var src = $(kitteh).find("url").text();
+    var id = $(kitteh).find("id").text();
+    $("#myList").append('<li><a href="#page' + id + '">' + name + '</a></li>').listview("refresh");
+
+    // Append new "pages" after "home" page
+    var pHTML = '<div data-role="page" id="page' + id + '">';
+    pHTML += '<div data-role="header" id="head' + id + '"><h1>' + name + '</h1><a data-rel="back">Back</a></div>';
+    pHTML += '<div role="main" class="ui-content" id="img_' + id + '"><a href="' + src + '" >' + name + '</a></div>';
+    pHTML += '</div>';
+    console.log(pHTML);
+    $("body").append(pHTML)
+
+
+    });
+
+
+    //var kitt = $(this).attr('id')
+    //alert(kitt);
+    // var name = $(kitteh).find("name").text();
+    
+    // var src = $(kitteh).find("url").text();
+    // var id = $(kitteh).find("id").text();        
+    // listHTML += '<li><a href="#page' + id + '">' + name + '</a></li>';
+
+    // // Append new "pages" after "home" page
+    // var pHTML = '<div data-role="page" id="page' + id + '">';
+    // pHTML += '<div data-role="header" id="head' + id + '"><h1>' + name + '</h1><a data-rel="back">Back</a></div>';
+    // pHTML += '<div role="main" class="ui-content" id="img_' + id + '"><a href="' + src + '" >' + name + '</a></div>';
+    // pHTML += '</div>';
+
+    // pagesHTML += pHTML;
+
+
+//$("#myList").empty().append(listHTML).listview("refresh");
+//$("body").append(pagesHTML);
+}
+      </script>
+
+
+
+</head>
+<body>
+    <div data-role="page" id="home">
+        <div data-role="content">
+          <div class="content-primary">
+            <div data-demo-html="true">
+              <ul id="myList" data-role="listview">
+                <li></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+    </div>
+  </body>
+
+</html>
